@@ -8,6 +8,8 @@ import org.apache.commons.cli.UnrecognizedOptionException;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.HelpFormatter;
 
+import java.util.Arrays;
+
 /*** Ponto de entrada para a aplicação.
  */
 public final class Main {
@@ -46,12 +48,16 @@ public final class Main {
 
         opcoesDefinidasNaLinhaDeComando.addOption("c", "cript", false,
                 "Coloca senha no PDF");
+
+        opcoesDefinidasNaLinhaDeComando.addOption("s", "sum", false,
+                "Soma arquivos PDF");
+
         opcoesDefinidasNaLinhaDeComando.addOption("ao", "arquivo-original",
-                true, "Arquivo PDF de entrada");
+                true, "Arquivo(s) PDF de entrada");
 
         opcoesDefinidasNaLinhaDeComando.addOption("as", "arquivo-saida", true,
                 "Arquivo PDF de destino, se não definir será "
-                        + "<arquivo_de_entrada>_cifrado.pdf");
+                        + "<arquivo_de_entrada>_out.pdf");
 
         opcoesDefinidasNaLinhaDeComando.addOption("su", "senha-usuario", true,
                 "Senha de usuário do arquivo, se não usar, será criado");
@@ -87,6 +93,14 @@ public final class Main {
 
         if (imprimeHelp(true)) {
             System.exit(0);
+        }
+
+        if (linhaDeComando.getOptions()[0].getOpt().equals("s")) {
+            ArquivosParaSomar aps = new ArquivosParaSomar();
+            aps.processaComandLine(linhaDeComando);
+            SomadorDeArquivos sda = new SomadorDeArquivos();
+            sda.somaArquivos(aps);
+            System.out.println("Processamento terminado");
         }
 
         if (linhaDeComando.getOptions()[0].getOpt().equals("c")) {
