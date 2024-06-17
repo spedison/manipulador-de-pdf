@@ -87,6 +87,9 @@ public final class Main {
      */
     public static void main(final String[] args) {
 
+
+        Arrays.stream(args).map(s->"parametro :: %s".formatted(s)).forEach(System.out::println);
+
         if (!inicializaOptions(args)) {
             System.exit(0);
         }
